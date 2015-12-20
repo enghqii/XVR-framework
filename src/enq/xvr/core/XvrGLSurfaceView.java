@@ -6,6 +6,8 @@ import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
 public class XvrGLSurfaceView extends GLSurfaceView {
+	
+	private XvrGLRenderer xvrRenderer = null;
 
 	public XvrGLSurfaceView(Context context) {
 		super(context);
@@ -22,11 +24,20 @@ public class XvrGLSurfaceView extends GLSurfaceView {
 	}
 	
 	public boolean onTouchEvent(final MotionEvent event){
+		
 		global.event = event;
 		global.x = event.getX();
 		global.y = event.getY();
+		
 		return true;
 	}
 	
-	private XvrGLRenderer xvrRenderer = null;
+	public XvrGLRenderer getRenderer(){
+		
+		if(xvrRenderer != null){
+			return xvrRenderer;
+		}else{
+			return null;
+		}
+	}
 }

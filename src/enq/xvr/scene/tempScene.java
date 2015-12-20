@@ -1,27 +1,30 @@
 package enq.xvr.scene;
 
 import enq.xvr.global;
-import enq.xvr.graphic.XvrResourceManager;
-import enq.xvr.graphic.XvrTexture;
-import android.content.Context;
-import android.util.Log;
+import enq.xvr.graphic.XvrImage;
+import enq.xvr.graphic.XvrRect;
 
 public class tempScene extends XvrScene {
 	
-	private XvrTexture bg =null;
-	private XvrTexture player =null;
+	private XvrImage bg =null;
+	private XvrImage player =null;
+	private XvrImage pSpr =null;
 	
 	private float alpha =0;
 	private float x =0;
 	private float y =0;
+	
+	
+	@Override
+	void initialize() {
 
-	public tempScene(Context mContext) {
-		super(mContext);
-			
-		rmgr = new XvrResourceManager(mContext);
-		rmgr.addPool("bg",bg = new XvrTexture("img/BG.png"));
-		rmgr.addPool("player",player= new XvrTexture("img/player.png"));
-		rmgr.createAllTexrures();
+		// 이미지 등록
+		bg = rmgr.addImage("bg","img/BG.png");
+		player = rmgr.addImage("player","img/player.png");
+		pSpr = rmgr.addImage("pSpr", "img/playerSpr.png");
+		
+		// 이미지 생성
+		rmgr.create();
 		
 		x = global.x;
 		y = global.y;
@@ -29,14 +32,17 @@ public class tempScene extends XvrScene {
 
 	@Override
 	void draw() {
-		spr.draw(bg, 0, 0, 1, 1, 0);
-		spr.draw(player, global.x+103, global.y+103, 1, 1, alpha);
+		bg.draw(0, 0);
+		player.draw(x, y, 1, 1, 32, 32, alpha*180);
+		player.draw(x+100, y, 2, 2, 32, 32, alpha*180*3);
+		pSpr.draw(0, 0);
+		pSpr.draw(100, 100, new XvrRect(0,0,64,64));
 	}
 
 	@Override
 	void frameMove(float timeDelta) {
 		
-		alpha += timeDelta * 60;
+		alpha += timeDelta;
 		
 		if( Math.abs(global.x - x) > 2 ){
 			x += ( global.x - x ) / 5.0f * 60 * timeDelta;
@@ -45,7 +51,9 @@ public class tempScene extends XvrScene {
 		if( Math.abs(global.y - y) > 2 ){
 			y += ( global.y - y ) / 5.0f * 60 * timeDelta;
 		}
-		Log.d("FRAME", ""+(1/timeDelta));
+		//Log.d("FRAME", ""+(1/timeDelta));
 	}
+
+	
 
 }

@@ -16,6 +16,8 @@ import android.util.Log;
 
 public class XvrGLRenderer implements Renderer {
 
+	private boolean isCreated = false;
+	
 	private Context mContext = null;
 	private XvrSceneManager smgr =null;
 	
@@ -33,8 +35,12 @@ public class XvrGLRenderer implements Renderer {
 	float timeDelta =0;
 	
 	public XvrGLRenderer(Context context){
+		
 		mContext = context;
 		bfTime = SystemClock.uptimeMillis();
+		smgr = new XvrSceneManager(mContext);
+		
+		isCreated = false;
 	}
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig arg1) {
@@ -52,12 +58,12 @@ public class XvrGLRenderer implements Renderer {
 			"}";
 		
 		String fragmentShaderSrc = 
-				"precision mediump float;\n" +
-				"varying vec2 vTextureCoord;\n" +
-				"uniform sampler2D sTexture;\n" +
-				"void main() {\n" +
-				"  gl_FragColor = texture2D(sTexture, vTextureCoord);\n" +
-				"}\n";
+			"precision mediump float;\n" +
+			"varying vec2 vTextureCoord;\n" +
+			"uniform sampler2D sTexture;\n" +
+			"void main() {\n" +
+			"  gl_FragColor = texture2D(sTexture, vTextureCoord );\n" +
+			"}\n";
 
 		mProgram = createProgram(vertexShaderSrc,fragmentShaderSrc);
 		
@@ -87,7 +93,10 @@ public class XvrGLRenderer implements Renderer {
 		GLES20.glEnable(GLES20.GL_TEXTURE);
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+
+		smgr.startEntryScene();
 		
+		isCreated = true;
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -98,10 +107,6 @@ public class XvrGLRenderer implements Renderer {
 		ortho2D(mProjMatrix, width, height);
 		GLES20.glUniformMatrix4fv(projHandle, 1,false, mProjMatrix, 0);
 		// set 2D projection
-
-		smgr = new XvrSceneManager();
-		smgr.changeScene(new splashScene(mContext));
-		// 
 		
 		XvrSprite.setModelHandle(modelHandle);
 	}
@@ -118,6 +123,13 @@ public class XvrGLRenderer implements Renderer {
 		smgr.draw();
 		
 		bfTime = SystemClock.uptimeMillis();
+		
+		Log.d("Frame", ""+(1/timeDelta));
+	}
+	
+	public XvrSceneManager getSceneManager(){
+		
+		return smgr;
 	}
 	
 	private void ortho2D(float[] mat,int width,int height){

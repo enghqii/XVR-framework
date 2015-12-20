@@ -1,26 +1,25 @@
 package enq.xvr.scene;
 
-import enq.xvr.graphic.XvrTexture;
-import android.content.Context;
+import enq.xvr.graphic.XvrImage;
 
 public class splashScene extends XvrScene {
 
 	private float time =0;
-	private XvrTexture tex =null;
-	private XvrTexture xvr =null;
+	private XvrImage bg =null;
+	private XvrImage xvr =null;
 	
-	public splashScene(Context mContext) {
-		super(mContext);
-
-		rmgr.addPool("splash",tex = new XvrTexture("img/BG.png"));
-		rmgr.addPool("xvr",xvr = new XvrTexture("img/xvr.png"));
-		rmgr.createAllTexrures();
+	@Override
+	void initialize() {
+		bg = rmgr.addImage("background", "img/BG.png");
+		xvr = rmgr.addImage("xvr", "img/xvr.png");
+		
+		rmgr.create();
 	}
 
 	@Override
 	void draw() {
-		spr.draw(tex, 0, 0, 1, 1, 0);
-		spr.draw(xvr, 284, 175, 1, 1, 0);
+		bg.draw(0, 0);
+		xvr.draw(285, 175);
 	}
 
 	@Override
@@ -28,7 +27,7 @@ public class splashScene extends XvrScene {
 		time += timeDelta;
 		
 		if(time > 2.5){
-			this.smgr.changeScene(new tempScene(mContext));
+			this.smgr.changeScene(new tempScene());
 		}
 	}
 }

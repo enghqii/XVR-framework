@@ -1,4 +1,4 @@
-package enq.xvr.scene;
+package enq.xvr;
 
 public class player {
 	
