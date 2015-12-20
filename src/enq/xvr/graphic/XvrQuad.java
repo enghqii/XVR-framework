@@ -96,6 +96,7 @@ public class XvrQuad {
 				// 이터레이터로 한번 돌면서
 				float[] uvCoordinates = (float[]) it.next();
 			
+				//buffer creation start
 				ByteBuffer tbb = ByteBuffer.allocateDirect(uvCoordinates.length * 4);
 				tbb.order(ByteOrder.nativeOrder());
 				mUVBuffer = tbb.asFloatBuffer();

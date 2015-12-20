@@ -3,14 +3,16 @@ package enq.xvr.core;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import enq.xvr.graphic.XvrSprite;
+import enq.xvr.scene.XvrSceneManager;
+import enq.xvr.scene.splashScene;
+
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.SystemClock;
 import android.util.Log;
-import enq.xvr.scene.XvrSceneManager;
-import enq.xvr.scene.splashScene;
 
 public class XvrGLRenderer implements Renderer {
 
@@ -77,7 +79,7 @@ public class XvrGLRenderer implements Renderer {
         maTextureHandle= GLES20.glGetAttribLocation(mProgram, "aTextureCoord");
         if (maTextureHandle == -1) {
             throw new RuntimeException("Could not get attrib location for maTextureHandle");
-        }//버텍스 좌표 핸들
+        }//텍스쳐 좌표 핸들
 		
 		GLES20.glUseProgram ( mProgram );
 		
@@ -89,14 +91,19 @@ public class XvrGLRenderer implements Renderer {
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
-
+		
 		GLES20.glViewport ( 0, 0, width, height );
+		// 이게 해상도를 결정하는거다
+		
 		ortho2D(mProjMatrix, width, height);
 		GLES20.glUniformMatrix4fv(projHandle, 1,false, mProjMatrix, 0);
 		// set 2D projection
 
 		smgr = new XvrSceneManager();
-		smgr.changeScene(new splashScene(mContext,modelHandle));
+		smgr.changeScene(new splashScene(mContext));
+		// 
+		
+		XvrSprite.setModelHandle(modelHandle);
 	}
 
 	public void onDrawFrame(GL10 gl) {

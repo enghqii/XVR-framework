@@ -24,7 +24,7 @@ public class XvrActivity extends Activity {
     		finish();
         }
         
-        setScreenMode(true,XvrActivity.XVR_SCREEN_PORTRAIT);
+        setScreenMode(true,XvrActivity.XVR_SCREEN_LANDSCAPE);
         setGraphicPath("/img");
         
         enqView = new XvrGLSurfaceView(this);

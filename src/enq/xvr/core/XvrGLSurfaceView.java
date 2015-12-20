@@ -1,5 +1,6 @@
 package enq.xvr.core;
 
+import enq.xvr.global;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;

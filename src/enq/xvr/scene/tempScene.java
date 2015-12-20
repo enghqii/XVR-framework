@@ -1,32 +1,25 @@
 package enq.xvr.scene;
 
+import enq.xvr.global;
+import enq.xvr.graphic.XvrResourceManager;
+import enq.xvr.graphic.XvrTexture;
 import android.content.Context;
 import android.util.Log;
-import enq.xvr.core.global;
-import enq.xvr.graphic.XvrResourceManager;
-import enq.xvr.graphic.XvrSprite;
-import enq.xvr.graphic.XvrTexture;
 
 public class tempScene extends XvrScene {
 	
-	private XvrResourceManager rmgr =null;
-	private XvrTexture tex =null;
-	private XvrTexture tex2 =null;
+	private XvrTexture bg =null;
 	private XvrTexture player =null;
-	private XvrSprite spr = null;
 	
 	private float alpha =0;
 	private float x =0;
 	private float y =0;
 
-	public tempScene(Context mContext, int modelHandle) {
-		super(mContext,modelHandle);
-		
-		spr = new XvrSprite();
-		
+	public tempScene(Context mContext) {
+		super(mContext);
+			
 		rmgr = new XvrResourceManager(mContext);
-		rmgr.addPool("xvr",tex = new XvrTexture("img/xvrs.png"));
-		rmgr.addPool("an2",tex2 = new XvrTexture("img/tile.png"));
+		rmgr.addPool("bg",bg = new XvrTexture("img/BG.png"));
 		rmgr.addPool("player",player= new XvrTexture("img/player.png"));
 		rmgr.createAllTexrures();
 		
@@ -36,18 +29,8 @@ public class tempScene extends XvrScene {
 
 	@Override
 	void draw() {
-		
-		spr.draw(tex2,super.modelHandle, 0 , 0 , 1.0f , 1.0f, 0);
-		spr.draw(tex2,super.modelHandle, 206 , 0 , 1.0f , 1.0f, 0);
-		spr.draw(tex2,super.modelHandle, 0 , 207 , 1.0f , 1.0f, 0);
-		spr.draw(tex2,super.modelHandle, 206 , 207 , 1.0f , 1.0f, 0);
-		
-		spr.draw(tex2,super.modelHandle, 0 , 414 , 1.0f , 1.0f, 0);
-		spr.draw(tex2,super.modelHandle, 206 , 414 , 1.0f , 1.0f, 0);
-		spr.draw(tex2,super.modelHandle, 0 , 621 , 1.0f , 1.0f, 0);
-		spr.draw(tex2,super.modelHandle, 206 , 621 , 1.0f , 1.0f, 0);
-		
-		spr.draw(player, modelHandle, 0, 800-64, 1, 1, 0);
+		spr.draw(bg, 0, 0, 1, 1, 0);
+		spr.draw(player, global.x+103, global.y+103, 1, 1, alpha);
 	}
 
 	@Override

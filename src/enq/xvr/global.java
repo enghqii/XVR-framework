@@ -1,4 +1,4 @@
-package enq.xvr.core;
+package enq.xvr;
 
 import android.graphics.Bitmap;
 import android.view.MotionEvent;

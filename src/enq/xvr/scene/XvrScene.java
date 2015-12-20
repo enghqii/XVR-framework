@@ -1,12 +1,16 @@
 package enq.xvr.scene;
 
+import enq.xvr.graphic.XvrResourceManager;
+import enq.xvr.graphic.XvrSprite;
 import android.content.Context;
 
 public abstract class XvrScene {
 	
-	public XvrScene(Context mContext ,int modelHandle){
-		this.modelHandle = modelHandle;
+	public XvrScene(Context mContext){
 		this.mContext = mContext;
+		
+		this.rmgr = new XvrResourceManager(mContext);
+		this.spr = new XvrSprite();
 	}
 	
 	abstract void draw();
@@ -16,7 +20,9 @@ public abstract class XvrScene {
 		this.smgr = smgr;
 	}
 	
-	protected XvrSceneManager smgr=null;
-	protected int modelHandle =0;
+	protected XvrSceneManager smgr =null;
+	protected XvrResourceManager rmgr =null;
+	protected XvrSprite spr =null;
+	
 	protected Context mContext = null;
 }
