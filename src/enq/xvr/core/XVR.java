@@ -24,6 +24,10 @@ public class XVR {
 	public final static int XVR_SCREEN_PORTRAIT  = 1;
 	public final static int XVR_SCREEN_NORMAL = 2;
 	
+	// resolution
+	private float screenWidth = 0;
+	private float screenHeight = 0;
+	
 	public XVR(){
 		isCreated = false;
 	}
@@ -38,6 +42,10 @@ public class XVR {
 	
 	public void onStop(){
 		
+	}
+	
+	public void onBackPressed(){
+		this.glView.getInputManager().onBackPressed();
 	}
 	
 	public void create(Activity activity){
@@ -59,9 +67,22 @@ public class XVR {
         Log.i("XVR","XVR created.");
 	}
 	
+	// for scene 
 	public void setEntryScene(XvrScene entryScene){
 		
 		getSceneManager().setEntryScene(entryScene);
+	}
+	
+	public void setEntryScene(String index){
+		getSceneManager().setEntryScene(index);
+	}
+	
+	public void addScene(String index, XvrScene scene){
+		getSceneManager().addScene(index, scene);
+	}
+	
+	public void deleteScene(String index){
+		getSceneManager().deleteScene(index);
 	}
 	
 	private XvrSceneManager getSceneManager(){
@@ -72,6 +93,13 @@ public class XVR {
 			return null;
 		}
 		
+	}
+	
+	// for screen
+	
+	public void setResolution(float width,float height){
+		screenWidth = width;
+		screenHeight = height;
 	}
 	
 	public void setScreenMode(boolean forceFullscreen,int screenMode){
@@ -99,6 +127,7 @@ public class XVR {
 		}
     }
 	
+	//
 	private boolean detectOpenGLES20() {
 		
         ActivityManager am = (ActivityManager) this.mActivity.getSystemService(Context.ACTIVITY_SERVICE);

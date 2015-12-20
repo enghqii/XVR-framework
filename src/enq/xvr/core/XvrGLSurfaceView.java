@@ -3,6 +3,7 @@ package enq.xvr.core;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import enq.xvr.scene.XvrScene;
 
@@ -19,7 +20,7 @@ public class XvrGLSurfaceView extends GLSurfaceView {
 		// create input manager 
 		
 		setEGLContextClientVersion(2);
-		xvrRenderer = new XvrGLRenderer(activity); 
+		xvrRenderer = new XvrGLRenderer(activity,xvrInputMgr); 
 		setRenderer(xvrRenderer);
 		
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
@@ -30,7 +31,7 @@ public class XvrGLSurfaceView extends GLSurfaceView {
 	
 	public boolean onTouchEvent(final MotionEvent event){
 		
-		xvrInputMgr.setEvent(event);
+		xvrInputMgr.onTouchEvent(event);
 		
 		return true;
 	}

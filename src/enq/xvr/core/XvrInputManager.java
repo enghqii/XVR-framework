@@ -1,6 +1,10 @@
 package enq.xvr.core;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -13,11 +17,13 @@ public class XvrInputManager {
 	
 	private MotionEvent event =null;
 	
+	public static final int ACTION_NONE = -1;
 	public static final int ACTION_DOWN = MotionEvent.ACTION_DOWN;
 	public static final int ACTION_MOVE = MotionEvent.ACTION_MOVE;
 	public static final int ACTION_UP = MotionEvent.ACTION_UP;
 	
-	private int state = ACTION_UP;
+	private int state = ACTION_NONE;
+	private Queue<Integer> messageQueue = null;
 	
 	private boolean isTouched = false;
 	
@@ -31,14 +37,17 @@ public class XvrInputManager {
 		viewWidth = this.mainView.getWidth();
 		viewHeight = this.mainView.getHeight();
 		
+		messageQueue = new LinkedList<Integer>();
 
         Log.i("XVR","XvrInputManager constructed.");
 	}
 	
-	public void setEvent(MotionEvent event){
+	public void onTouchEvent(MotionEvent event){
 		
 		this.event = event;
-		state = this.event.getAction();
+		//state = this.event.getAction();
+		messageQueue.add(this.event.getAction());
+		state = messageQueue.poll();
 		this.x = this.event.getX();
 		this.y = this.event.getY();
 		
@@ -57,11 +66,16 @@ public class XvrInputManager {
 		}
 	}
 	
+	public void onBackPressed() {
+		// do something
+	}
+	
 	public MotionEvent getEvent(){
 		return this.event;
 	}
 	
 	public int getState(){
+		
 		return state;
 	}
 	
@@ -77,4 +91,15 @@ public class XvrInputManager {
 		return y;
 	}
 	
+	protected void update(){
+		
+		if(messageQueue.isEmpty() == false){
+			state = messageQueue.poll();
+		}
+		
+		if(state == ACTION_UP){
+			state = ACTION_NONE;
+		}
+	}
+
 }

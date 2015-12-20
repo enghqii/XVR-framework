@@ -8,6 +8,7 @@ import android.util.Log;
 public class XvrSceneManager {
 	
 	private Activity mActivity =null;
+	private XvrIntent intent = null;
 	
 	private XvrScene curScene =null;
 	private XvrScene entryScene =null;
@@ -17,12 +18,21 @@ public class XvrSceneManager {
 	public XvrSceneManager(Activity activity){
 		
 		this.mActivity = activity;
+		scenePool = new HashMap<String, XvrScene>();
 		
         Log.i("XVR","XvrSceneManager constructed.");
 	}
 	
+	public void setIntent(XvrIntent intent){
+		this.intent = intent;
+	}
+	
 	public void setEntryScene(XvrScene entryScene){
 		this.entryScene = entryScene;
+	}
+	
+	public void setEntryScene(String index){
+		this.entryScene = scenePool.get(index);
 	}
 	
 	public void startEntryScene(){
@@ -35,16 +45,39 @@ public class XvrSceneManager {
 		scene.setSceneManager(this);
 		scene.setActivity(mActivity);
 		scene.createResourceManager();
+		
+		if(curScene != null){
+			curScene.deleteAllTextures();
+		}
+		
 		scene.initialize();
 		curScene = scene;
 	}
 	
 	public void changeScene(String index){
 		
-		changeScene(scenePool.get(index));
+		XvrScene scene = scenePool.get(index);
+		
+		if(curScene != null){
+			curScene.deleteAllTextures();
+		}
+
+		scene.setIntent(intent);
+		scene.initialize();
+		curScene = scene;
+	}
+	
+	public void changeSceneWithIntent(String index, XvrIntent intent){
+		setIntent(intent);
+		changeScene(index);
 	}
 	
 	public void addScene(String index, XvrScene scene){
+		
+		scene.setSceneManager(this);
+		scene.setActivity(mActivity);
+		scene.createResourceManager();
+		
 		scenePool.put(index,scene);
 	}
 	

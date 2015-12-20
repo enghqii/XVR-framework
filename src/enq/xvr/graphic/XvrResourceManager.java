@@ -3,6 +3,7 @@ package enq.xvr.graphic;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import android.content.Context;
 
 public class XvrResourceManager {
@@ -36,25 +37,36 @@ public class XvrResourceManager {
 		return null;
 	}
 	
-	public XvrAnimatedImage addAnimatedImage(String index, String path, float frameSizeX, float frameSizeY){
+	public void addAnimatedImage(String index, String path, float frameSizeX, float frameSizeY){
+		
 		if(bCreated == false){
 			XvrAnimatedImage anim = new XvrAnimatedImage(path, frameSizeX, frameSizeY);
 			imgPool.put(index, anim);
-			return anim;
 		}
-		return null;
 	}
 	
 	public XvrImage getImage(String index){
+		
 		if(bCreated == true){
-			return imgPool.get(index);
+		
+			XvrImage temp = imgPool.get(index);
+			return temp;
+		
 		}
 		return null;
 	}
 	
 	public XvrAnimatedImage getAnimatedImage(String index){
+		
 		if(bCreated == true){
+		
+			XvrAnimatedImage temp = (XvrAnimatedImage) imgPool.get(index);
+			return temp.deepCopy();
+		
+		}else if(bCreated == false){
+			
 			return (XvrAnimatedImage) imgPool.get(index);
+			
 		}
 		return null;
 	}
@@ -74,8 +86,7 @@ public class XvrResourceManager {
 		}
 	}
 	
-	void delete(){
-		// do not use now
+	public void delete(){
 		
 		if(bCreated == true){
 			
@@ -84,8 +95,8 @@ public class XvrResourceManager {
 		
 			while(it.hasNext()){
 				img = it.next();
-			
 				//delete texture here
+				img.release();
 			}
 		
 			bCreated = false;

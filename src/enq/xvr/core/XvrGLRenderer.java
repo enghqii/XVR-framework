@@ -18,6 +18,8 @@ public class XvrGLRenderer implements Renderer {
 	private boolean isCreated = false;
 	
 	private Activity mActivity = null;
+	private XvrInputManager inputMgr = null;
+	
 	private XvrSceneManager smgr =null;
 	
     private float[] mProjMatrix = new float[16];
@@ -26,6 +28,7 @@ public class XvrGLRenderer implements Renderer {
 	private int modelHandle =0;
 	private int maTextureHandle=0;
 	private int rmVertexHandle =0;
+	private int maColourHandle =0;
 	
 	private int mProgram =0;
 	
@@ -33,12 +36,13 @@ public class XvrGLRenderer implements Renderer {
 	long elapsedTime =0;
 	float timeDelta =0;
 	
-	public XvrGLRenderer(Activity activity){
+	public XvrGLRenderer(Activity activity, XvrInputManager xvrInputMgr){
 		
 		mActivity = activity;
-		bfTime = SystemClock.uptimeMillis();
 		smgr = new XvrSceneManager(activity);
+		inputMgr = xvrInputMgr;
 		
+		bfTime = SystemClock.uptimeMillis();
 		isCreated = false;
 		
         Log.i("XVR","XvrGLRenderer constructed.");
@@ -51,19 +55,23 @@ public class XvrGLRenderer implements Renderer {
 			"uniform mat4 uModelMatrix; \n" +
 			"attribute vec4 rm_Vertex;    \n" + 
 			"attribute vec2 aTextureCoord; \n" +
+			"attribute vec4 aTextureColour; \n" +
+			"varying vec4 vTextureColour; \n" +
 			"varying vec2 vTextureCoord; \n" +
 			"void main()                  \n" +
 			"{                            \n" +
 			"   gl_Position = uProjMatrix * uModelMatrix * rm_Vertex;  \n" +
 			"	vTextureCoord = aTextureCoord; \n" +
+			"	vTextureColour = aTextureColour; \n" +
 			"}";
 		
 		String fragmentShaderSrc = 
 			"precision mediump float;\n" +
+			"varying vec4 vTextureColour; \n" +
 			"varying vec2 vTextureCoord;\n" +
 			"uniform sampler2D sTexture;\n" +
 			"void main() {\n" +
-			"  gl_FragColor = texture2D(sTexture, vTextureCoord );\n" +
+			"  gl_FragColor = texture2D(sTexture, vTextureCoord ) * vTextureColour;\n" +
 			"}\n";
 
 		mProgram = createProgram(vertexShaderSrc,fragmentShaderSrc);
@@ -88,8 +96,12 @@ public class XvrGLRenderer implements Renderer {
             throw new RuntimeException("Could not get attrib location for maTextureHandle");
         }//텍스쳐 좌표 핸들
         
+        maColourHandle= GLES20.glGetAttribLocation(mProgram, "aTextureColour");
+        if (maTextureHandle == -1) {
+            throw new RuntimeException("Could not get attrib location for maColourHandle");
+        }//텍스쳐 컬러 핸들
         
-        XvrQuad.setHandles(maTextureHandle, rmVertexHandle);
+        XvrQuad.setHandles(maTextureHandle, rmVertexHandle, maColourHandle);
 		
 		GLES20.glUseProgram ( mProgram );
 		
@@ -124,6 +136,7 @@ public class XvrGLRenderer implements Renderer {
 		bfTime = SystemClock.uptimeMillis();
 		
 		smgr.frameMove(timeDelta);
+		inputMgr.update();
 
 		GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT );
 		

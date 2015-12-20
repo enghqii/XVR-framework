@@ -11,17 +11,17 @@ public abstract class XvrScene {
 	abstract public void draw();
 	abstract public void frameMove(float timeDelta);
 	
-	public void setSceneManager(XvrSceneManager smgr){
+	protected void setSceneManager(XvrSceneManager smgr){
 		
 		this.smgr = smgr;
 	}
 	
-	public void setActivity(Activity activity){
+	protected void setActivity(Activity activity){
 		
 		this.mActivity = activity;
 	}
 	
-	public void createResourceManager(){
+	protected void createResourceManager(){
 
 		this.rmgr = new XvrResourceManager(mActivity);
 	}
@@ -31,8 +31,18 @@ public abstract class XvrScene {
 		XvrScene.inputMgr = inputMgr;
 	}
 	
+	public void setIntent(XvrIntent intent){
+		this.intent = intent;
+	}
+	
+	public void deleteAllTextures() {
+		
+		rmgr.delete();
+	}
+	
 	protected XvrSceneManager smgr =null;
 	protected XvrResourceManager rmgr =null;
+	protected XvrIntent intent = null;
 	
 	protected Activity mActivity = null;
 	protected static XvrInputManager inputMgr =null;

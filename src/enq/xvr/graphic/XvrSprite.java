@@ -1,5 +1,6 @@
 package enq.xvr.graphic;
 
+import enq.xvr.core.XvrColour;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
@@ -16,10 +17,15 @@ public class XvrSprite extends XvrQuad {
 	public float centreX =0;
 	public float centreY =0;
 	public XvrRect clippingRect = null;
+	public XvrColour colour = null;
 	
+	// draw parameter
+	private float[] uvsArr = new float[8];
+	private float[] coloursArr = new float[16];
+	private float[] tempUVs = null;
+	private float[] tempColours = null;
 	
-	private float[] uvs = new float[8];
-	
+	// matrices
 	private float[] mModelMatrix = new float[16];
 	
     private float[] mTranslate = new float[16];
@@ -30,7 +36,6 @@ public class XvrSprite extends XvrQuad {
     //r
     private float[] mScale = new float[16];
     //s
-    
     
 	public XvrSprite() {
 		
@@ -44,28 +49,7 @@ public class XvrSprite extends XvrQuad {
 	
 	}
 	
-	private void draw(XvrTexture tex){
-		
-		setMatrix(tex.getWidth(), tex.getHeight());
-		
-		setUV(tex.getWidth(), tex.getHeight());
-		
-		GLES20.glUniformMatrix4fv(modelHandle, 1, false, mModelMatrix, 0);
-		
-		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, tex.getTexIndex());
-    	
-		if(clippingRect == null){
-			
-			super.draw(null);
-			
-		}else{
-			
-			super.draw(uvs);
-			
-		}
-	}
-	
-	public void draw(XvrTexture tex,float x, float y, float scaleX, float scaleY, float centreX, float centreY, float rotation, XvrRect clippingRect){
+	public void draw(XvrTexture tex,float x, float y, float scaleX, float scaleY, float centreX, float centreY, float rotation, XvrRect clippingRect, XvrColour colour){
 		
 		this.x = (int)x;
 		this.y = (int)y;
@@ -75,8 +59,36 @@ public class XvrSprite extends XvrQuad {
 		this.centreY = centreY;
 		this.rotation = rotation;
 		this.clippingRect = clippingRect;
+		this.colour = colour;
 		
 		this.draw(tex);
+	}
+	
+	private void draw(XvrTexture tex){
+		
+		setMatrix(tex.getWidth(), tex.getHeight());
+		
+		setUV(tex.getWidth(), tex.getHeight());
+		setColour();
+		
+		GLES20.glUniformMatrix4fv(modelHandle, 1, false, mModelMatrix, 0);
+		
+		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, tex.getTexIndex());
+		
+		if(clippingRect == null){
+			tempUVs = null;
+		}else{
+			tempUVs = uvsArr;
+		}
+		
+		if(colour == null){
+			tempColours = null;
+		}else{
+			tempColours = coloursArr;
+		}
+		
+		super.draw(tempUVs, tempColours);
+		
 	}
 	
 	private void setMatrix(float textureWidth, float textureHight){
@@ -116,18 +128,44 @@ public class XvrSprite extends XvrQuad {
 		
 		if(clippingRect != null){
 		
-			uvs[0] = clippingRect.left * 1 / textureWidth;
-			uvs[1] = clippingRect.bottom * 1 / textureHight;
+			uvsArr[0] = clippingRect.left * 1 / textureWidth;
+			uvsArr[1] = clippingRect.bottom * 1 / textureHight;
 		
-			uvs[2] = clippingRect.left * 1 / textureWidth;
-			uvs[3] = clippingRect.top * 1 / textureHight;
+			uvsArr[2] = clippingRect.left * 1 / textureWidth;
+			uvsArr[3] = clippingRect.top * 1 / textureHight;
 
-			uvs[4] = clippingRect.right * 1 / textureWidth;
-			uvs[5] = clippingRect.bottom * 1 / textureHight;
+			uvsArr[4] = clippingRect.right * 1 / textureWidth;
+			uvsArr[5] = clippingRect.bottom * 1 / textureHight;
 		
-			uvs[6] = clippingRect.right * 1 / textureWidth;
-			uvs[7] = clippingRect.top * 1 / textureHight;
+			uvsArr[6] = clippingRect.right * 1 / textureWidth;
+			uvsArr[7] = clippingRect.top * 1 / textureHight;
 		
+		}
+	}
+	
+	private void setColour(){
+		
+		if(colour != null){
+			
+			coloursArr[0] = colour.r/255f;
+			coloursArr[1] = colour.g/255f;
+			coloursArr[2] = colour.b/255f;
+			coloursArr[3] = colour.a/255f;
+
+			coloursArr[4] = coloursArr[0];
+			coloursArr[5] = coloursArr[1];
+			coloursArr[6] = coloursArr[2];
+			coloursArr[7] = coloursArr[3];
+
+			coloursArr[8] = coloursArr[0];
+			coloursArr[9] = coloursArr[1];
+			coloursArr[10] = coloursArr[2];
+			coloursArr[11] = coloursArr[3];
+
+			coloursArr[12] = coloursArr[0];
+			coloursArr[13] = coloursArr[1];
+			coloursArr[14] = coloursArr[2];
+			coloursArr[15] = coloursArr[3];
 		}
 	}
 }

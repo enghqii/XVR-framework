@@ -1,6 +1,7 @@
 package enq.xvr;
 
 import enq.xvr.graphic.XvrImage;
+import enq.xvr.scene.XvrIntent;
 import enq.xvr.scene.XvrScene;
 
 public class splashScene extends XvrScene {
@@ -28,7 +29,8 @@ public class splashScene extends XvrScene {
 		time += timeDelta;
 		
 		if(time > 2.5){
-			this.smgr.changeScene(new tempScene());
+			XvrIntent intent = new XvrIntent(100);
+			this.smgr.changeSceneWithIntent("tempScene",intent);
 		}
 	}
 }

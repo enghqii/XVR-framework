@@ -1,6 +1,7 @@
 package enq.xvr;
 
 import android.util.Log;
+import enq.xvr.core.XvrColour;
 import enq.xvr.core.XvrInputManager;
 import enq.xvr.graphic.XvrAnimatedImage;
 import enq.xvr.graphic.XvrImage;
@@ -9,6 +10,7 @@ import enq.xvr.scene.XvrScene;
 public class tempScene extends XvrScene {
 	
 	private XvrImage bg =null;
+	private XvrImage fade =null;
 	private XvrAnimatedImage pSpr =null;
 	
 	private float alpha =0;
@@ -19,14 +21,16 @@ public class tempScene extends XvrScene {
 	public void initialize() {
 
 		// 이미지 등록
+		fade = rmgr.addImage("fade","img/fade.png");
 		bg = rmgr.addImage("bg","img/BG.png");
-		pSpr = rmgr.addAnimatedImage("pSpr", "img/playerSpr.png", 64, 64);
+		rmgr.addAnimatedImage("pSpr", "img/playerSpr.png", 64, 64);
+		pSpr = rmgr.getAnimatedImage("pSpr");
 		
 		// 이미지 생성
 		rmgr.create();
 		
-		x = inputMgr.getX();
-		y = inputMgr.getY();
+		x = intent.getInteger(0);
+		y = intent.getInteger(0);
 		
 		pSpr.play();
 	}
@@ -40,8 +44,13 @@ public class tempScene extends XvrScene {
 		pSpr.draw(x, y, 1, 1, 32, 32, alpha * 5);
 		//pSpr.draw(0, 0);
 		//pSpr.draw(0, 70 , new XvrRect(0,0,320,64));
+		 
+	
+		pSpr.draw(100,100);
 		
-		pSpr.draw(100, 100);
+		fade.draw(x, y, 400, 240, new XvrColour(255,255,255,128));
+		fade.draw(x+200, y, 400, 240, new XvrColour(255,255,255,25));
+		//fade.draw(0, 0, new XvrColour((int) (Math.cos(alpha)*128 + 128),(int) (Math.sin(alpha)*128 + 128),255,(int) (Math.sin(alpha)*128 + 128)));
 	}
 	
 	@Override
@@ -73,7 +82,19 @@ public class tempScene extends XvrScene {
 			y += ( inputMgr.getY() - y ) / 5.0f * 60 * timeDelta;
 		}
 		
-		Log.d("timeDelta", "timeDelta ="+ timeDelta +"accureTime ="+ alpha);
+		//Log.d("timeDelta", "timeDelta ="+ 1/timeDelta +"accureTime ="+ alpha);
+		if(inputMgr.getState() == XvrInputManager.ACTION_DOWN){
+
+			Log.d("touchInputTest","down");	
+		}
+		if(inputMgr.getState() == XvrInputManager.ACTION_UP){
+
+			Log.d("touchInputTest","up");	
+		}
+		if(inputMgr.getState() == XvrInputManager.ACTION_MOVE){
+
+			Log.d("touchInputTest","move");	
+		}
 	}
 
 	

@@ -2,6 +2,7 @@ package enq.xvr;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import enq.xvr.core.XVR;
 
 public class MainActivity extends Activity {
@@ -17,7 +18,11 @@ public class MainActivity extends Activity {
         xvr = new XVR();
         xvr.setScreenMode(true, XVR.XVR_SCREEN_LANDSCAPE);
         xvr.create(this);
-        xvr.setEntryScene(new splashScene());
+        
+        xvr.addScene("splashScene", new splashScene());
+        xvr.addScene("tempScene", new tempScene());
+        
+        xvr.setEntryScene("splashScene");
         
     }
     
@@ -29,5 +34,10 @@ public class MainActivity extends Activity {
     public void onPause(){
     	super.onPause();
     	xvr.onPause();
+    }
+    
+    @Override
+    public void onBackPressed(){
+    	Log.d("Back", "back Pressssssssssed");
     }
 }

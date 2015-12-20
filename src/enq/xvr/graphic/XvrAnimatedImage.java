@@ -1,6 +1,8 @@
 package enq.xvr.graphic;
 
 import android.content.Context;
+import android.util.Log;
+import enq.xvr.core.XvrColour;
 
 public class XvrAnimatedImage extends XvrImage {
 	
@@ -21,6 +23,10 @@ public class XvrAnimatedImage extends XvrImage {
 	//play
 	private boolean isPlaying =false;
 	
+	private boolean playUnlimited = true;
+	private int nTimes = 0;
+	private int curTimes = 0;
+	
 	public XvrAnimatedImage(String path, float frameSizeX, float frameSizeY) {
 		super(path);
 		setFrameSize(frameSizeX, frameSizeY);
@@ -40,9 +46,46 @@ public class XvrAnimatedImage extends XvrImage {
 		
 	}
 	
+	public XvrAnimatedImage deepCopy(){
+
+		XvrAnimatedImage tempAnim = new XvrAnimatedImage(this.getPath(), frameSizeX, frameSizeY);
+		
+		tempAnim.setTexIndex(this.getTexIndex());
+		
+		tempAnim.isCreated = this.isCreated;
+		tempAnim.makeHeight = this.makeHeight;
+		tempAnim.makeWidth = this.makeWidth;
+		tempAnim.textureHeight = this.textureHeight;
+		tempAnim.textureWidth = this.textureWidth;
+	
+		tempAnim.curFrame = this.curFrame;
+		tempAnim.curFrameTime = this.curFrameTime;
+		tempAnim.frameSizeX = this.frameSizeX;
+		tempAnim.frameSizeY = this.frameSizeY;
+		
+		tempAnim.isPlaying = this.isPlaying;
+		tempAnim.nFrame = this.nFrame;
+		tempAnim.secondPerFrame = this.secondPerFrame;
+		tempAnim.uv = this.uv;
+		
+		tempAnim.playUnlimited = this.playUnlimited;
+		tempAnim.nTimes = this.nTimes;
+		tempAnim.curTimes = this.curTimes;
+		
+		return tempAnim;
+	}
+	
 	public void play(){
 		
 		isPlaying = true;
+		playUnlimited = true;
+	}
+	
+	public void play(int nTimes){
+		
+		isPlaying = true;
+		this.nTimes = nTimes;
+		playUnlimited = false;
 	}
 	
 	public void pause(){
@@ -53,6 +96,7 @@ public class XvrAnimatedImage extends XvrImage {
 	public void stop(){
 
 		isPlaying = false;
+		curTimes = 0;
 		curFrame = 0;
 	}
 	
@@ -65,6 +109,14 @@ public class XvrAnimatedImage extends XvrImage {
 		frameSizeY = sizeY;
 	}
 	
+	public int getCurrentFrame(){
+		return curFrame;
+	}
+	
+	public boolean isPlaying(){
+		return isPlaying;
+	}
+	
 	public void update(float timeDelta){
 		
 		if(isPlaying == true){
@@ -73,8 +125,22 @@ public class XvrAnimatedImage extends XvrImage {
 		
 			if(curFrameTime >= secondPerFrame){
 				// change to next frame
+				
 				curFrame++;
-				curFrame %= nFrame;
+				
+				if(curFrame >= nFrame){
+
+					curFrame %= nFrame;	
+					
+					if(playUnlimited == false){
+						curTimes++;
+						Log.d("animated", "curTimes " + curTimes);
+					
+						if(curTimes >= nTimes){
+							stop();
+						}
+					}
+				}
 				curFrameTime =0;
 			}
 		}
@@ -82,23 +148,43 @@ public class XvrAnimatedImage extends XvrImage {
 	}
 	
 	public void draw(float x, float y){
-		spr.draw(this, x, y, 1, 1, 0, 0, 0, uv[curFrame] );
+		spr.draw(this, x, y, 1, 1, 0, 0, 0, uv[curFrame] ,null);
+	}
+	
+	public void draw(float x, float y, XvrColour colour){
+		spr.draw(this, x, y, 1, 1, 0, 0, 0, uv[curFrame] ,colour);
 	}
 	
 	public void draw(float x, float y, float rotation){
-		spr.draw(this, x, y, 1, 1, 0, 0, rotation, uv[curFrame]);
+		spr.draw(this, x, y, 1, 1, 0, 0, rotation, uv[curFrame],null);
+	}
+	
+	public void draw(float x, float y, float rotation, XvrColour colour){
+		spr.draw(this, x, y, 1, 1, 0, 0, rotation, uv[curFrame], colour);
 	}
 	
 	public void draw(float x, float y, float scaleX, float scaleY){
-		spr.draw(this, x, y, scaleX, scaleY, 0, 0, 0, uv[curFrame]);
+		spr.draw(this, x, y, scaleX, scaleY, 0, 0, 0, uv[curFrame],null);
+	}
+	
+	public void draw(float x, float y, float scaleX, float scaleY, XvrColour colour){
+		spr.draw(this, x, y, scaleX, scaleY, 0, 0, 0, uv[curFrame],colour);
 	}
 	
 	public void draw(float x, float y, float scaleX, float scaleY, float centreX, float centreY){
-		spr.draw(this, x, y, scaleX, scaleY, centreX, centreY, 0, uv[curFrame]);
+		spr.draw(this, x, y, scaleX, scaleY, centreX, centreY, 0, uv[curFrame],null);
+	}
+	
+	public void draw(float x, float y, float scaleX, float scaleY, float centreX, float centreY, XvrColour colour){
+		spr.draw(this, x, y, scaleX, scaleY, centreX, centreY, 0, uv[curFrame],colour);
 	}
 	
 	public void draw(float x, float y, float scaleX, float scaleY, float centreX, float centreY,float rotation){
-		spr.draw(this, x, y, scaleX, scaleY, centreX, centreY, rotation, uv[curFrame]);
+		spr.draw(this, x, y, scaleX, scaleY, centreX, centreY, rotation, uv[curFrame], null);
+	}
+	
+	public void draw(float x, float y, float scaleX, float scaleY, float centreX, float centreY,float rotation, XvrColour colour){
+		spr.draw(this, x, y, scaleX, scaleY, centreX, centreY, rotation, uv[curFrame], colour);
 	}
 	
 }

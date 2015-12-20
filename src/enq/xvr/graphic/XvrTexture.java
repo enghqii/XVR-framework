@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.Bitmap.Config;
+import android.opengl.GLES10;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
@@ -79,10 +80,10 @@ public class XvrTexture {
 		Log.e("XvrTexture", "errorcode = " + GLES20.glGetError());
 
 		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+		GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
 		
-		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_REPEAT);
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_REPEAT);
+		GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S,GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,GLES20.GL_CLAMP_TO_EDGE);
 
 
 		Log.e("XvrTexture", "errorcode = " + GLES20.glGetError());
@@ -102,6 +103,24 @@ public class XvrTexture {
 		isCreated = true;
 	}
 	
+	private void setTexProperties(int texIndex,float width,float height) {
+		this.texIndex = texIndex;
+		this.makeWidth = width;
+		this.makeHeight = height;
+	}
+	
+	protected int getTexIndex(){
+		return texIndex;
+	}
+	
+	protected void setTexIndex(int index){
+		texIndex = index;
+	}
+	
+	public void release(){
+		GLES20.glDeleteTextures(1, mTexture, 0);
+	}
+	
 	public String getPath(){
 		return path;
 	}
@@ -114,13 +133,7 @@ public class XvrTexture {
 		return makeHeight;
 	}
 	
-	public void setTexProperties(int texIndex,float width,float height) {
-		this.texIndex = texIndex;
-		this.makeWidth = width;
-		this.makeHeight = height;
+	public XvrTexture getXvrTexture(){
+		return this;
 	}
-	public int getTexIndex(){
-		return texIndex;
-	}
-	
 }
