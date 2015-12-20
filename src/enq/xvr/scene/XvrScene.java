@@ -42,7 +42,12 @@ public abstract class XvrScene {
 	
 	protected XvrSceneManager smgr =null;
 	protected XvrResourceManager rmgr =null;
-	protected XvrIntent intent = null;
+	
+	private XvrIntent intent = null;
+	
+	protected XvrIntent getThisIntent(){
+		return intent;
+	}
 	
 	protected Activity mActivity = null;
 	protected static XvrInputManager inputMgr =null;

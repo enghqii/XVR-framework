@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ConfigurationInfo;
 import android.util.Log;
 import android.view.WindowManager;
+import enq.xvr.graphic.XvrResourceManager;
 import enq.xvr.scene.XvrScene;
 import enq.xvr.scene.XvrSceneManager;
 
@@ -27,6 +28,10 @@ public class XVR {
 	// resolution
 	private float screenWidth = 0;
 	private float screenHeight = 0;
+	
+	// Managers
+	private XvrSceneManager smgr = null;
+	private XvrResourceManager rmgr = null;
 	
 	public XVR(){
 		isCreated = false;

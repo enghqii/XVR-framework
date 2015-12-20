@@ -3,7 +3,6 @@ package enq.xvr.core;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import enq.xvr.scene.XvrScene;
 

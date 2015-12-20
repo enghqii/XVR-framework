@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.Bitmap.Config;
-import android.opengl.GLES10;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;

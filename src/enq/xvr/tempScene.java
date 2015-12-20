@@ -13,6 +13,8 @@ public class tempScene extends XvrScene {
 	private XvrImage fade =null;
 	private XvrAnimatedImage pSpr =null;
 	
+	private XvrImage tile = null;
+	
 	private float alpha =0;
 	private float x =0;
 	private float y =0;
@@ -26,11 +28,13 @@ public class tempScene extends XvrScene {
 		rmgr.addAnimatedImage("pSpr", "img/playerSpr.png", 64, 64);
 		pSpr = rmgr.getAnimatedImage("pSpr");
 		
+		tile = rmgr.addImage("tile", "img/tile_block1.png");
+		
 		// 이미지 생성
 		rmgr.create();
 		
-		x = intent.getInteger(0);
-		y = intent.getInteger(0);
+		x = this.getThisIntent().getInteger(0);
+		y = this.getThisIntent().getInteger(0);
 		
 		pSpr.play();
 	}
@@ -39,6 +43,18 @@ public class tempScene extends XvrScene {
 	public void draw() {
 		
 		bg.draw(0, 0);
+		
+		tile.draw(0, 0);
+		tile.draw(99, 0);
+		
+
+		tile.draw(250, 0);
+		tile.draw(250 + 100, 0);
+		
+
+		tile.draw(500, 0);
+		tile.draw(500 + 101, 0);
+		
 		pSpr.draw(5, y, 1, 1, 32, 32 , 3.1415f / 2.0f );
 		pSpr.draw(x, (465.0f - 64.0f), 1, 1, 32, 32);
 		pSpr.draw(x, y, 1, 1, 32, 32, alpha * 5);
@@ -82,7 +98,7 @@ public class tempScene extends XvrScene {
 			y += ( inputMgr.getY() - y ) / 5.0f * 60 * timeDelta;
 		}
 		
-		Log.d("timeDelta", "timeDelta ="+ 1/timeDelta +"accureTime ="+ alpha);
+		Log.d("timeDelta", "FPS ="+ 1/timeDelta +" acTime = "+ alpha);
 		
 	}
 

@@ -71,7 +71,8 @@ public class XvrGLRenderer implements Renderer {
 			"varying vec2 vTextureCoord;\n" +
 			"uniform sampler2D sTexture;\n" +
 			"void main() {\n" +
-			"  gl_FragColor = texture2D(sTexture, vTextureCoord ) * vTextureColour;\n" +
+			"  vec4 colour = texture2D(sTexture, vTextureCoord ) * vTextureColour;"+
+			"  gl_FragColor = colour;\n" +
 			"}\n";
 
 		mProgram = createProgram(vertexShaderSrc,fragmentShaderSrc);

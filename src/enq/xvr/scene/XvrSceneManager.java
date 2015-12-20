@@ -13,6 +13,8 @@ public class XvrSceneManager {
 	private XvrScene curScene =null;
 	private XvrScene entryScene =null;
 	
+	private String lastIndex = "";
+	
 	private HashMap<String,XvrScene> scenePool = null;
 	
 	public XvrSceneManager(Activity activity){
@@ -33,6 +35,7 @@ public class XvrSceneManager {
 	
 	public void setEntryScene(String index){
 		this.entryScene = scenePool.get(index);
+		lastIndex = index;
 	}
 	
 	public void startEntryScene(){
@@ -65,9 +68,12 @@ public class XvrSceneManager {
 		scene.setIntent(intent);
 		scene.initialize();
 		curScene = scene;
+		
+		lastIndex = index;
 	}
 	
 	public void changeSceneWithIntent(String index, XvrIntent intent){
+		intent.setFrom(lastIndex);
 		setIntent(intent);
 		changeScene(index);
 	}

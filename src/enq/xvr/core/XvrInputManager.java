@@ -29,6 +29,8 @@ public class XvrInputManager {
 	private boolean isTouched = false;
 	private boolean isBackPressed = false;
 	
+	private int nPressed = 0;
+	
 	private float x =0;
 	private float y =0;
 	
@@ -40,6 +42,13 @@ public class XvrInputManager {
 		viewHeight = this.mainView.getHeight();
 		
 		messageQueue = new LinkedList<Integer>();
+		
+		state = ACTION_NONE;
+		isTouched = false;
+		isBackPressed = false;
+		
+		nPressed = 0;
+		x = y = 0;
 
         Log.i("XVR","XvrInputManager constructed.");
 	}
@@ -48,8 +57,16 @@ public class XvrInputManager {
 		
 		this.event = event;
 		//state = this.event.getAction();
+		
+		int action = event.getAction();
+		
+		if(event.getPointerCount() > 1){
+			
+		}
+		
 		messageQueue.add(this.event.getAction());
 		state = messageQueue.poll();
+		
 		this.x = this.event.getX();
 		this.y = this.event.getY();
 		

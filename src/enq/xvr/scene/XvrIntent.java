@@ -1,58 +1,69 @@
 package enq.xvr.scene;
 
+import java.util.Vector;
+
 // copying android intent primitively
 public class XvrIntent {
-
-	private int[] integer = null;
-	private int nInteger = 0;
 	
-	private String[] string = null;
-	private int nString = 0;
+	private Vector<Integer> integerVector = null;
+	private Vector<String> stringVector = null;
 	
-	public XvrIntent(String string) {
-		nString = 1;
-		this.string = new String[nString];
-		this.string[0] = string;
+	private String from = null;
+	
+	public XvrIntent(String str) {
+		integerVector = new Vector<Integer>(3);
+		stringVector = new Vector<String>(3);
+		
+		stringVector.add(str);
 	}
 	
-	public XvrIntent(int integer){
-		nInteger = 1;
-		this.integer = new int[nInteger];
-		this.integer[0] = integer;
+	public XvrIntent(int i){
+		integerVector = new Vector<Integer>(3);
+		stringVector = new Vector<String>(3);
+		
+		integerVector.add(i);
 	}
 	
-	public void setIntegers(int nInteger, int[] integers){
-		this.nInteger = nInteger;
-		this.integer = integers;
+	public void addInteger(int i){
+		integerVector.add(i);
 	}
 	
-	public void setStrings(int nString, String[] strings){
-		this.nString = nString;
-		this.string = strings;
+	public void addString(String str){
+		stringVector.add(str);
 	}
 	
 	public int getInteger(int index){
-		if(0 <= index && index < nInteger){
-			return integer[index];
+		
+		if(0 <= index && index < integerVector.size()){
+			return integerVector.get(index);
 		}else{
-			return integer[0];
+			return integerVector.get(0);
 		}
 	}
 	
 	public String getString(int index){
-		if(0 <= index && index < nString){
-			return string[index];
+		
+		if(0 <= index && index < stringVector.size()){
+			return stringVector.get(index);
 		}else{
-			return string[0];
+			return stringVector.get(0);
 		}
 	}
 	
-	public int[] getIntegers(){
-		return integer;
+	public int getnString(){
+		return stringVector.size();
 	}
 	
-	public String[] getStrings(){
-		return string;
+	public int getnInteger(){
+		return integerVector.size();
+	}
+	
+	public String getFrom(){
+		return from;
+	}
+	
+	protected void setFrom(String from){
+		this.from = from;
 	}
 
 }
