@@ -1,9 +1,10 @@
-package enq.xvr.scene;
+package enq.xvr;
 
 import android.util.Log;
 import enq.xvr.graphic.XvrAnimatedImage;
 import enq.xvr.graphic.XvrImage;
 import enq.xvr.graphic.XvrRect;
+import enq.xvr.scene.XvrScene;
 
 public class tempScene extends XvrScene {
 	
@@ -37,7 +38,8 @@ public class tempScene extends XvrScene {
 		pSpr.draw(5, y, 1, 1, 32, 32 , 3.1415f / 2.0f );
 		pSpr.draw(x, (465.0f - 64.0f), 1, 1, 32, 32);
 		pSpr.draw(x, y, 1, 1, 32, 32, alpha * 5);
-		//pSpr.draw(100, 100, new XvrRect(0,0,64,64));
+		//pSpr.draw(0, 0);
+		//pSpr.draw(0, 70 , new XvrRect(0,0,320,64));
 		
 	}
 	

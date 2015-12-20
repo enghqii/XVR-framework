@@ -3,22 +3,21 @@ package enq.xvr.core;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import enq.xvr.graphic.XvrSprite;
-import enq.xvr.scene.XvrSceneManager;
-import enq.xvr.scene.splashScene;
-
-import android.content.Context;
+import android.app.Activity;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.SystemClock;
 import android.util.Log;
+import enq.xvr.graphic.XvrQuad;
+import enq.xvr.graphic.XvrSprite;
+import enq.xvr.scene.XvrSceneManager;
 
 public class XvrGLRenderer implements Renderer {
 
 	private boolean isCreated = false;
 	
-	private Context mContext = null;
+	private Activity mActivity = null;
 	private XvrSceneManager smgr =null;
 	
     private float[] mProjMatrix = new float[16];
@@ -34,13 +33,15 @@ public class XvrGLRenderer implements Renderer {
 	long elapsedTime =0;
 	float timeDelta =0;
 	
-	public XvrGLRenderer(Context context){
+	public XvrGLRenderer(Activity activity){
 		
-		mContext = context;
+		mActivity = activity;
 		bfTime = SystemClock.uptimeMillis();
-		smgr = new XvrSceneManager(mContext);
+		smgr = new XvrSceneManager(activity);
 		
 		isCreated = false;
+		
+        Log.i("XVR","XvrGLRenderer constructed.");
 	}
 	
 	public void onSurfaceCreated(GL10 gl, EGLConfig arg1) {
@@ -86,10 +87,13 @@ public class XvrGLRenderer implements Renderer {
         if (maTextureHandle == -1) {
             throw new RuntimeException("Could not get attrib location for maTextureHandle");
         }//텍스쳐 좌표 핸들
+        
+        
+        XvrQuad.setHandles(maTextureHandle, rmVertexHandle);
 		
 		GLES20.glUseProgram ( mProgram );
 		
-		GLES20.glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
+		GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		GLES20.glEnable(GLES20.GL_TEXTURE);
 		GLES20.glEnable(GLES20.GL_BLEND);
 		GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
@@ -97,6 +101,8 @@ public class XvrGLRenderer implements Renderer {
 		smgr.startEntryScene();
 		
 		isCreated = true;
+		
+        Log.i("XVR","XvrGLRenderer said \"GL surface created.\" ");
 	}
 
 	public void onSurfaceChanged(GL10 gl, int width, int height) {

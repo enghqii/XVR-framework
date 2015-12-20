@@ -3,7 +3,6 @@ package enq.xvr;
 import android.app.Activity;
 import android.os.Bundle;
 import enq.xvr.core.XVR;
-import enq.xvr.scene.splashScene;
 
 public class MainActivity extends Activity {
     /** Called when the activity is first created. */

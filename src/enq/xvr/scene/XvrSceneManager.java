@@ -1,12 +1,15 @@
 package enq.xvr.scene;
 
-import android.content.Context;
+import android.app.Activity;
+import android.util.Log;
 
 public class XvrSceneManager {
 	
-	public XvrSceneManager(Context mContext){
+	public XvrSceneManager(Activity activity){
 		
-		this.mContext = mContext;
+		this.mActivity = activity;
+		
+        Log.i("XVR","XvrSceneManager constructed.");
 	}
 	
 	public void setEntryScene(XvrScene entryScene){
@@ -21,7 +24,7 @@ public class XvrSceneManager {
 	public void changeScene(XvrScene scene){
 		
 		scene.setSceneManager(this);
-		scene.setContext(mContext);
+		scene.setActivity(mActivity);
 		scene.createResourceManager();
 		scene.initialize();
 		curScene = scene;
@@ -42,5 +45,5 @@ public class XvrSceneManager {
 	private XvrScene curScene =null;
 	private XvrScene entryScene =null;
 	
-	private Context mContext =null;
+	private Activity mActivity =null;
 }

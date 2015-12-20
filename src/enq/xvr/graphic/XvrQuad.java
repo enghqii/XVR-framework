@@ -9,6 +9,14 @@ import android.opengl.GLES20;
 
 abstract public class XvrQuad {
 	
+		private static int uvHandle =0;
+		private static int vertexHandle =0;
+		
+		public static void setHandles(int uvHandle, int vertexHandle){
+			XvrQuad.uvHandle = uvHandle;
+			XvrQuad.vertexHandle = vertexHandle;
+		}
+	
 	    private FloatBuffer mVertexBuffer;
 		private ShortBuffer mIndexBuffer;
 		private FloatBuffer mUVBuffer;
@@ -55,10 +63,10 @@ abstract public class XvrQuad {
 	    	
 	    	// and finally draw.
 			
-			GLES20.glVertexAttribPointer( 0 , 2, GLES20.GL_FLOAT, false, 0, mUVBuffer);
+			GLES20.glVertexAttribPointer( uvHandle, 2, GLES20.GL_FLOAT, false, 0, mUVBuffer);
 			GLES20.glEnableVertexAttribArray( 0 );
 
-			GLES20.glVertexAttribPointer ( 1, 3, GLES20.GL_FLOAT, false, 0, mVertexBuffer );
+			GLES20.glVertexAttribPointer ( vertexHandle, 3, GLES20.GL_FLOAT, false, 0, mVertexBuffer );
 			GLES20.glEnableVertexAttribArray ( 1 );
 			
 			GLES20.glDrawElements(GLES20.GL_TRIANGLE_STRIP, numberOfIndices, GLES20.GL_UNSIGNED_SHORT, mIndexBuffer);
@@ -77,7 +85,7 @@ abstract public class XvrQuad {
 			ByteBuffer tbb = ByteBuffer.allocateDirect(uvs.length * 4);
 			tbb.order(ByteOrder.nativeOrder());
 			mUVBuffer = tbb.asFloatBuffer();
-			mUVBuffer.put(defaultUVcoord);
+			mUVBuffer.put(uvs);
 			mUVBuffer.position(0);
 			// 버퍼를 생성
 		}

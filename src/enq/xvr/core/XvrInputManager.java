@@ -1,5 +1,6 @@
 package enq.xvr.core;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -21,6 +22,9 @@ public class XvrInputManager {
 		
 		viewWidth = this.mainView.getWidth();
 		viewHeight = this.mainView.getHeight();
+		
+
+        Log.i("XVR","XvrInputManager constructed.");
 	}
 	
 	public void setEvent(MotionEvent event){
@@ -30,6 +34,10 @@ public class XvrInputManager {
 		this.y = this.event.getY();
 		
 		// TODO 여기서 view 의 크기랑 해상도로 x,y를 조절한다
+	}
+	
+	public MotionEvent getEvent(){
+		return this.event;
 	}
 	
 	public float getX(){

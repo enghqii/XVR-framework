@@ -67,8 +67,8 @@ public class XvrSprite extends XvrQuad {
 	
 	public void draw(XvrTexture tex,float x, float y, float scaleX, float scaleY, float centreX, float centreY, float rotation, XvrRect clippingRect){
 		
-		this.x = x;
-		this.y = y;
+		this.x = (int)x;
+		this.y = (int)y;
 		this.scaleX = scaleX;
 		this.scaleY = scaleY;
 		this.centreX = centreX;
@@ -101,10 +101,11 @@ public class XvrSprite extends XvrQuad {
 		
 		Matrix.setIdentityM(mScale, 0);
 		
-		if(clippingRect == null)
+		if(clippingRect == null){
 			Matrix.scaleM(mScale, 0, textureWidth * this.scaleX , textureHight * this.scaleY , 0);
-		else
+		}else{
 			Matrix.scaleM(mScale, 0, clippingRect.width * this.scaleX , clippingRect.height * this.scaleY , 0);
+		}
 		//Scale
 		
 		Matrix.multiplyMM(mModelMatrix, 0, mTranslate, 0, mRotate, 0);

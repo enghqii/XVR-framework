@@ -1,26 +1,31 @@
 package enq.xvr.core;
 
-import enq.xvr.scene.XvrScene;
-import android.content.Context;
+import android.app.Activity;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 import android.view.MotionEvent;
+import enq.xvr.scene.XvrScene;
 
 public class XvrGLSurfaceView extends GLSurfaceView {
 	
 	private XvrGLRenderer xvrRenderer = null;
 	private XvrInputManager xvrInputMgr = null;
 
-	public XvrGLSurfaceView(Context context) {
-		super(context);
+	public XvrGLSurfaceView(Activity activity) {
+		super(activity);
 		
 		xvrInputMgr = new XvrInputManager(this);
 		XvrScene.setInputManager(xvrInputMgr);
+		// create input manager 
 		
 		setEGLContextClientVersion(2);
-		xvrRenderer = new XvrGLRenderer(context); 
+		xvrRenderer = new XvrGLRenderer(activity); 
 		setRenderer(xvrRenderer);
 		
 		setRenderMode(RENDERMODE_CONTINUOUSLY);
+		// create renderer
+		
+        Log.i("XVR"," XvrGLSurfaceView constructed.");
 	}
 	
 	public boolean onTouchEvent(final MotionEvent event){
@@ -35,6 +40,19 @@ public class XvrGLSurfaceView extends GLSurfaceView {
 		if(xvrRenderer != null){
 			
 			return xvrRenderer;
+			
+		}else{
+			
+			return null;
+			
+		}
+	}
+	
+	public XvrInputManager getInputManager(){
+		
+		if(xvrInputMgr != null){
+			
+			return xvrInputMgr;
 			
 		}else{
 			

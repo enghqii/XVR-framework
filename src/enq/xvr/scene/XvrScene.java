@@ -1,8 +1,8 @@
 package enq.xvr.scene;
 
+import android.app.Activity;
 import enq.xvr.core.XvrInputManager;
 import enq.xvr.graphic.XvrResourceManager;
-import android.content.Context;
 
 public abstract class XvrScene {
 	
@@ -16,14 +16,14 @@ public abstract class XvrScene {
 		this.smgr = smgr;
 	}
 	
-	public void setContext(Context context){
+	public void setActivity(Activity activity){
 		
-		this.mContext = context;
+		this.mActivity = activity;
 	}
 	
 	public void createResourceManager(){
 
-		this.rmgr = new XvrResourceManager(mContext);
+		this.rmgr = new XvrResourceManager(mActivity);
 	}
 	
 	public static void setInputManager(XvrInputManager inputMgr){
@@ -34,6 +34,6 @@ public abstract class XvrScene {
 	protected XvrSceneManager smgr =null;
 	protected XvrResourceManager rmgr =null;
 	
-	protected Context mContext = null;
+	protected Activity mActivity = null;
 	protected static XvrInputManager inputMgr =null;
 }

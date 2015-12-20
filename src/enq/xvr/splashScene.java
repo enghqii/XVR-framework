@@ -1,6 +1,7 @@
-package enq.xvr.scene;
+package enq.xvr;
 
 import enq.xvr.graphic.XvrImage;
+import enq.xvr.scene.XvrScene;
 
 public class splashScene extends XvrScene {
 
