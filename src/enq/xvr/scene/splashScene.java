@@ -9,7 +9,7 @@ public class splashScene extends XvrScene {
 	private XvrImage xvr =null;
 	
 	@Override
-	void initialize() {
+	public void initialize() {
 		bg = rmgr.addImage("background", "img/BG.png");
 		xvr = rmgr.addImage("xvr", "img/xvr.png");
 		
@@ -17,13 +17,13 @@ public class splashScene extends XvrScene {
 	}
 
 	@Override
-	void draw() {
+	public void draw() {
 		bg.draw(0, 0);
 		xvr.draw(285, 175);
 	}
 
 	@Override
-	void frameMove(float timeDelta) {
+	public void frameMove(float timeDelta) {
 		time += timeDelta;
 		
 		if(time > 2.5){

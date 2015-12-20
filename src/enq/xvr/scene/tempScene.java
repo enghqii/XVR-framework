@@ -15,7 +15,7 @@ public class tempScene extends XvrScene {
 	private float y =0;
 	
 	@Override
-	void initialize() {
+	public void initialize() {
 
 		// 이미지 등록
 		bg = rmgr.addImage("bg","img/BG.png");
@@ -31,7 +31,7 @@ public class tempScene extends XvrScene {
 	}
 
 	@Override
-	void draw() {
+	public void draw() {
 		
 		bg.draw(0, 0);
 		pSpr.draw(5, y, 1, 1, 32, 32 , 3.1415f / 2.0f );
@@ -42,7 +42,7 @@ public class tempScene extends XvrScene {
 	}
 	
 	@Override
-	void frameMove(float timeDelta) {
+	public void frameMove(float timeDelta) {
 		
 		pSpr.update(timeDelta);
 		

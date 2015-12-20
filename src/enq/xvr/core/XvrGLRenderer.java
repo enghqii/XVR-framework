@@ -124,7 +124,7 @@ public class XvrGLRenderer implements Renderer {
 		
 		bfTime = SystemClock.uptimeMillis();
 		
-		Log.d("Frame", ""+(1/timeDelta));
+		//Log.d("Frame", ""+(1/timeDelta));
 	}
 	
 	public XvrSceneManager getSceneManager(){

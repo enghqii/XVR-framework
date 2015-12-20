@@ -6,14 +6,10 @@ import android.content.Context;
 
 public abstract class XvrScene {
 	
-	public XvrScene(){
-		
-	}
+	abstract public void initialize();
 	
-	abstract void draw();
-	abstract void frameMove(float timeDelta);
-	
-	abstract void initialize();
+	abstract public void draw();
+	abstract public void frameMove(float timeDelta);
 	
 	public void setSceneManager(XvrSceneManager smgr){
 		
