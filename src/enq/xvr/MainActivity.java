@@ -12,12 +12,14 @@ public class MainActivity extends Activity {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	
         super.onCreate(savedInstanceState);
         
         xvr = new XVR();
         xvr.setScreenMode(true, XVR.XVR_SCREEN_LANDSCAPE);
         xvr.create(this);
         xvr.setEntryScene(new splashScene());
+        
     }
     
     public void onResume(){

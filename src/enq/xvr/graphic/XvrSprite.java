@@ -91,7 +91,7 @@ public class XvrSprite extends XvrQuad {
 		Matrix.setIdentityM(mTr1, 0);
 		Matrix.setIdentityM(mTr2, 0);
 		
-		Matrix.rotateM(mRotate, 0, this.rotation , 0, 0, 1);
+		Matrix.rotateM(mRotate, 0, this.rotation * 180.f / 3.1415f , 0, 0, 1);
 		Matrix.translateM(mTr1, 0, -centreX, -centreY, 0);
 		Matrix.translateM(mTr2, 0, +centreX, +centreY, 0);
 		

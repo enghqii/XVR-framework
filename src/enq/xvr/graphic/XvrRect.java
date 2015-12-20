@@ -31,5 +31,11 @@ public class XvrRect {
 		this.width = Math.abs(right - left);
 		this.height = Math.abs(bottom - top);
 	}
+	
+	public void recalc(){
+
+		this.width = Math.abs(right - left);
+		this.height = Math.abs(bottom - top);
+	}
 
 }

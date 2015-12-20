@@ -21,8 +21,11 @@ public class XvrTexture {
 	private String path;
 	
 	// properties
-	protected float width =0;
-	protected float height =0;
+	protected float makeWidth =0;
+	protected float makeHeight =0;
+	
+	protected float textureWidth =0;
+	protected float textureHeight =0;
 	
 	// flag
 	protected boolean isCreated = false;
@@ -51,22 +54,22 @@ public class XvrTexture {
 		}
 		
 
-		int imgWidth = bitmap.getWidth();
-        int imgHeight = bitmap.getHeight();
+		textureWidth = bitmap.getWidth();
+        textureHeight = bitmap.getHeight();
         // get the size of image
         
         int makeWidth = 2;
         int makeHeight = 2;
         
-        while( makeWidth < imgWidth )
+        while( makeWidth < textureWidth )
 			makeWidth *= 2;
-		while( makeHeight < imgHeight )
+		while( makeHeight < textureHeight )
 			makeHeight *= 2;
 		// and get nearest power of 2
 		
 		Bitmap bmp2 = Bitmap.createBitmap(makeWidth, makeHeight, Config.ARGB_8888);
 		Canvas canvas = new Canvas(bmp2);
-		canvas.drawBitmap(bitmap, new Rect(0,0,imgWidth,imgHeight), new Rect(0,0,imgWidth,imgHeight), null);
+		canvas.drawBitmap(bitmap, new Rect(0,0,(int) textureWidth,(int) textureHeight), new Rect(0,0, (int) textureWidth, (int) textureHeight), null);
 		// 가장 가까운 2의 제곱수의 크기로 만들어진 캔버스에 원래 이미지를 그리고 그걸로 텍스쳐 생성을 하겠다
 		
 		
@@ -104,17 +107,17 @@ public class XvrTexture {
 	}
 	
 	public float getWidth() {
-		return width;
+		return makeWidth;
 	}
 
 	public float getHeight() {
-		return height;
+		return makeHeight;
 	}
 	
 	public void setTexProperties(int texIndex,float width,float height) {
 		this.texIndex = texIndex;
-		this.width = width;
-		this.height = height;
+		this.makeWidth = width;
+		this.makeHeight = height;
 	}
 	public int getTexIndex(){
 		return texIndex;

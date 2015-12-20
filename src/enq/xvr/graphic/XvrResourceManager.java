@@ -36,9 +36,25 @@ public class XvrResourceManager {
 		return null;
 	}
 	
+	public XvrAnimatedImage addAnimatedImage(String index, String path, float frameSizeX, float frameSizeY){
+		if(bCreated == false){
+			XvrAnimatedImage anim = new XvrAnimatedImage(path, frameSizeX, frameSizeY);
+			imgPool.put(index, anim);
+			return anim;
+		}
+		return null;
+	}
+	
 	public XvrImage getImage(String index){
-		if(bCreated){
+		if(bCreated == true){
 			return imgPool.get(index);
+		}
+		return null;
+	}
+	
+	public XvrAnimatedImage getAnimatedImage(String index){
+		if(bCreated == true){
+			return (XvrAnimatedImage) imgPool.get(index);
 		}
 		return null;
 	}

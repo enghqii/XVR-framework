@@ -4,6 +4,8 @@ import android.content.Context;
 
 public class XvrImage extends XvrTexture {
 
+	protected static XvrSprite spr;
+	
 	public XvrImage(String path) {
 		super(path);
 		// TODO Auto-generated constructor stub
@@ -40,6 +42,4 @@ public class XvrImage extends XvrTexture {
 	public static void setSprite(XvrSprite spr){
 		XvrImage.spr = spr;
 	}
-	
-	private static XvrSprite spr;
 }
