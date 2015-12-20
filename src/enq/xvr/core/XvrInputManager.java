@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -14,6 +13,8 @@ public class XvrInputManager {
 	
 	private int viewWidth =1;
 	private int viewHeight =1;
+	private int resolutionX =1;
+	private int resolutionY =1;
 	
 	private MotionEvent event =null;
 	
@@ -26,6 +27,7 @@ public class XvrInputManager {
 	private Queue<Integer> messageQueue = null;
 	
 	private boolean isTouched = false;
+	private boolean isBackPressed = false;
 	
 	private float x =0;
 	private float y =0;
@@ -66,8 +68,9 @@ public class XvrInputManager {
 		}
 	}
 	
-	public void onBackPressed() {
+	protected void onBackPressed() {
 		// do something
+		isBackPressed = true;
 	}
 	
 	public MotionEvent getEvent(){
@@ -75,7 +78,6 @@ public class XvrInputManager {
 	}
 	
 	public int getState(){
-		
 		return state;
 	}
 	
@@ -83,23 +85,39 @@ public class XvrInputManager {
 		return isTouched;
 	}
 	
+	public boolean isBackPressed(){
+		return isBackPressed;
+	}
+	
 	public float getX(){
-		return x;
+		return x * resolutionX / viewWidth;
 	}
 	
 	public float getY(){
-		return y;
+		return y * resolutionY / viewHeight;
 	}
 	
 	protected void update(){
 		
-		if(messageQueue.isEmpty() == false){
+		if(messageQueue.peek() != null){
 			state = messageQueue.poll();
 		}
 		
 		if(state == ACTION_UP){
 			state = ACTION_NONE;
 		}
+		
+		isBackPressed = false;
+	}
+	
+	protected void setResolution(float resolutionX, float resolutionY){
+		this.resolutionX = (int) resolutionX;
+		this.resolutionY = (int) resolutionY;
+	}
+	
+	protected void setViewSize(float width, float height){
+		this.viewWidth = (int) width;
+		this.viewHeight = (int) height;
 	}
 
 }

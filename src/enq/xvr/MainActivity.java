@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
     
     @Override
     public void onBackPressed(){
+    	xvr.onBackPressed();
     	Log.d("Back", "back Pressssssssssed");
     }
 }

@@ -16,6 +16,7 @@ public class XvrGLSurfaceView extends GLSurfaceView {
 		super(activity);
 		
 		xvrInputMgr = new XvrInputManager(this);
+		xvrInputMgr.setResolution(800, 480);
 		XvrScene.setInputManager(xvrInputMgr);
 		// create input manager 
 		

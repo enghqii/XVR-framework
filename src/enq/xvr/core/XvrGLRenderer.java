@@ -120,13 +120,14 @@ public class XvrGLRenderer implements Renderer {
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
 		
 		GLES20.glViewport ( 0, 0, width, height );
-		// 이게 해상도를 결정하는거다
 		
-		ortho2D(mProjMatrix, width, height);
+		// 이게 해상도를 결정
+		ortho2D(mProjMatrix, 800, 480);
 		GLES20.glUniformMatrix4fv(projHandle, 1,false, mProjMatrix, 0);
 		// set 2D projection
 		
 		XvrSprite.setModelHandle(modelHandle);
+		inputMgr.setViewSize(width, height);
 	}
 
 	public void onDrawFrame(GL10 gl) {

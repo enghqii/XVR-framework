@@ -82,19 +82,8 @@ public class tempScene extends XvrScene {
 			y += ( inputMgr.getY() - y ) / 5.0f * 60 * timeDelta;
 		}
 		
-		//Log.d("timeDelta", "timeDelta ="+ 1/timeDelta +"accureTime ="+ alpha);
-		if(inputMgr.getState() == XvrInputManager.ACTION_DOWN){
-
-			Log.d("touchInputTest","down");	
-		}
-		if(inputMgr.getState() == XvrInputManager.ACTION_UP){
-
-			Log.d("touchInputTest","up");	
-		}
-		if(inputMgr.getState() == XvrInputManager.ACTION_MOVE){
-
-			Log.d("touchInputTest","move");	
-		}
+		Log.d("timeDelta", "timeDelta ="+ 1/timeDelta +"accureTime ="+ alpha);
+		
 	}
 
 	
