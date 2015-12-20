@@ -1,9 +1,9 @@
 package enq.xvr;
 
 import android.util.Log;
+import enq.xvr.core.XvrInputManager;
 import enq.xvr.graphic.XvrAnimatedImage;
 import enq.xvr.graphic.XvrImage;
-import enq.xvr.graphic.XvrRect;
 import enq.xvr.scene.XvrScene;
 
 public class tempScene extends XvrScene {
@@ -41,6 +41,7 @@ public class tempScene extends XvrScene {
 		//pSpr.draw(0, 0);
 		//pSpr.draw(0, 70 , new XvrRect(0,0,320,64));
 		
+		pSpr.draw(100, 100);
 	}
 	
 	@Override
@@ -50,6 +51,20 @@ public class tempScene extends XvrScene {
 		
 		alpha += timeDelta;
 		
+		/*
+		if(inputMgr.isTouched()){
+			if((100 < inputMgr.getX() && inputMgr.getX() < 164)&&(100 < inputMgr.getY() && inputMgr.getY() < 164)){
+				mActivity.finish();
+			}
+		}*/
+		
+		
+		if(inputMgr.getState() == XvrInputManager.ACTION_DOWN){
+			if((100 < inputMgr.getX() && inputMgr.getX() < 164)&&(100 < inputMgr.getY() && inputMgr.getY() < 164)){
+				mActivity.finish();
+			}
+		}
+		
 		if( Math.abs(inputMgr.getX() - x) > 2 ){
 			x += ( inputMgr.getX() - x ) / 5.0f * 60 * timeDelta;
 		}
@@ -57,7 +72,8 @@ public class tempScene extends XvrScene {
 		if( Math.abs(inputMgr.getY() - y) > 2 ){
 			y += ( inputMgr.getY() - y ) / 5.0f * 60 * timeDelta;
 		}
-		//Log.d("FRAME", ""+(1/timeDelta));
+		
+		Log.d("timeDelta", "timeDelta ="+ timeDelta +"accureTime ="+ alpha);
 	}
 
 	

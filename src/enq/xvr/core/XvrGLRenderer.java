@@ -121,14 +121,13 @@ public class XvrGLRenderer implements Renderer {
 		
 		elapsedTime = SystemClock.uptimeMillis() - bfTime;
 		timeDelta = elapsedTime / 1000.f;
+		bfTime = SystemClock.uptimeMillis();
 		
 		smgr.frameMove(timeDelta);
 
 		GLES20.glClear( GLES20.GL_COLOR_BUFFER_BIT );
 		
 		smgr.draw();
-		
-		bfTime = SystemClock.uptimeMillis();
 		
 		//Log.d("Frame", ""+(1/timeDelta));
 	}

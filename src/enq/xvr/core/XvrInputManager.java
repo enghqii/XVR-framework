@@ -13,6 +13,14 @@ public class XvrInputManager {
 	
 	private MotionEvent event =null;
 	
+	public static final int ACTION_DOWN = MotionEvent.ACTION_DOWN;
+	public static final int ACTION_MOVE = MotionEvent.ACTION_MOVE;
+	public static final int ACTION_UP = MotionEvent.ACTION_UP;
+	
+	private int state = ACTION_UP;
+	
+	private boolean isTouched = false;
+	
 	private float x =0;
 	private float y =0;
 	
@@ -30,14 +38,35 @@ public class XvrInputManager {
 	public void setEvent(MotionEvent event){
 		
 		this.event = event;
+		state = this.event.getAction();
 		this.x = this.event.getX();
 		this.y = this.event.getY();
 		
 		// TODO 여기서 view 의 크기랑 해상도로 x,y를 조절한다
+		
+		switch(state){
+		
+		case ACTION_UP:
+			isTouched = false;
+			break;
+			
+		case ACTION_DOWN:
+		case ACTION_MOVE:
+			isTouched = true;
+			break;
+		}
 	}
 	
 	public MotionEvent getEvent(){
 		return this.event;
+	}
+	
+	public int getState(){
+		return state;
+	}
+	
+	public boolean isTouched(){
+		return isTouched;
 	}
 	
 	public float getX(){
